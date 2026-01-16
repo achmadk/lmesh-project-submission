@@ -11,10 +11,13 @@ This project is built using the following libraries:
 4. React Hook Form + Yup for reusable form handling components and form validation.
 5. Biome for linting and formatting.
 6. OpenNext for deploy Nextjs app into cloudflare.
+7. Vitest, @testing-library/react, and JSDOM for unit testing the components and other modules.
+8. Playwright for end-to-end testing the app.
 
 You can directly view this app on [this link](https://lmesh-project-submission.achmad-kurnianto.workers.dev/).
 
 ## Scripts
 1. `pnpm install` to install all the dependencies defined from the `package.json` file.
 2. `pnpm run dev` to start the development server.
-3. `pnpm run build` to build the project for production.
+3. `pnpm run test` to run the unit and end-to-end tests.
+4. `pnpm run build` to build the project for production.

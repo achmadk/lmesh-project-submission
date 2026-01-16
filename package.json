@@ -7,6 +7,9 @@
     "build": "next build --turbopack",
     "build:server": "opennextjs-cloudflare build",
     "start": "next start",
+    "test:unit": "vitest -u --run",
+    "test:e2e": "playwright test",
+    "test": "pnpm run test:unit && pnpm run test:e2e",
     "lint": "biome check --write --unsafe",
     "format": "biome format --write",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
@@ -36,6 +39,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.11",
+    "@playwright/test": "^1.57.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^25",
     "@types/react": "^19",

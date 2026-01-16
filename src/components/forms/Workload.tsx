@@ -104,7 +104,10 @@ export const FormWorkload = <
       className="flex w-100dvw min-h-screen items-center justify-center font-sans bg-gray"
       onClick={() => setSelectedIndex(null)}
     >
-      <main className="flex min-h-screen w-full flex-col items-center justify-between xs:p-2 sm:p-4 lg:py-8 lg:px-4 xl:py-16 xl:px-8 sm:items-start">
+      <main
+        data-testid="form-workload"
+        className="flex min-h-screen w-full flex-col items-center justify-between xs:p-2 sm:p-4 lg:py-8 lg:px-4 xl:py-16 xl:px-8 sm:items-start"
+      >
         <Form<FormPayload>
           defaultValues={defaultValues}
           onSubmit={console.log}
