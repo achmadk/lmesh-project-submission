@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
+    "build:server": "opennextjs-cloudflare build",
     "start": "next start",
     "lint": "biome check --write --unsafe",
     "format": "biome format --write",
