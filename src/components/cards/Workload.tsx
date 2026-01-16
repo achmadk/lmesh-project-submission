@@ -51,7 +51,7 @@ export const CardWorkload = <
   withMonthName = true,
   onButtonUpdateClicked,
 }: Props) => {
-  const { selectedIndex } = useHomeContext();
+  const { selectedIndex, setSelectedIndex } = useHomeContext();
   const [isFictive, setIsFictive] = useState(false);
   const [prevValue, setPrevValue] = useState(() => data.total);
   const { register, formState, setValue, watch, setFocus } =
@@ -70,6 +70,10 @@ export const CardWorkload = <
     `workloads.${index!}.total`,
   );
 
+  const selected =
+    (isSelected && mode === "DEFAULT") ||
+    (typeof index === "number" && index === selectedIndex);
+
   const getBGColor = (
     initialValue: number | string,
     prefix: "bg" | "text" = "bg",
@@ -87,9 +91,6 @@ export const CardWorkload = <
       }
       return `bg-gray`;
     }
-    // if (prefix === "text") {
-    //   return "text-base-100/70";
-    // }
     if (total === 0) {
       if (prefix === "text") {
         return "text-error-content";
@@ -132,6 +133,7 @@ export const CardWorkload = <
       setValue(`workloads.${index!}.total`, newVal ? 0 : prevValue);
       return newVal;
     });
+    setSelectedIndex(null);
   };
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
@@ -147,12 +149,8 @@ export const CardWorkload = <
     }
   }, [errorMessage, mode, selectedIndex]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    if (
-      mode === "DEFAULT" &&
-      typeof errorMessage === "string"
-    ) {
+    if (mode === "DEFAULT" && typeof errorMessage === "string") {
       toastId.current = toast.error(errorMessage);
     }
   }, [errorMessage, mode]);
@@ -172,17 +170,22 @@ export const CardWorkload = <
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
-    if (errorMessage === null && toastId.current && toast.isActive(toastId.current)) {
+    if (
+      errorMessage === null &&
+      toastId.current &&
+      toast.isActive(toastId.current)
+    ) {
       toast.dismiss(toastId.current);
     }
   }, [errorMessage, toastId.current]);
 
   return (
-    // <div {...(isSelected && mode === "DEFAULT" && { className: "col-span-2" })}>
-    <div>
+    <div {...(selected && { className: "col-span-2" })}>
       {withMonthName && (
         <div className="text-lg text-center mt-16 mb-2">
-          {data.month_name?.slice(0, 3)}
+          {typeof index === "number" && index === selectedIndex
+            ? data.month_name
+            : data.month_name?.slice(0, 3)}
         </div>
       )}
       <div
@@ -209,14 +212,7 @@ export const CardWorkload = <
               <Activity
                 mode={isSelected && mode === "DEFAULT" ? "visible" : "hidden"}
               >
-                <input
-                  type="text"
-                  className={`input input-ghost input-xs${errorMessage ? " input-error" : ""}`}
-                  {...formFields}
-                  {...{ onChange }}
-                  disabled={isFictive}
-                />
-                {/* <div className="w-full pb-2">
+                <div className="w-full pb-2">
                   <input
                     type="range"
                     min="0"
@@ -225,35 +221,9 @@ export const CardWorkload = <
                     {...formFields}
                     {...{ onChange }}
                     disabled={isFictive}
-                    className="range range-sm w-full"
+                    className="range range-sm"
                   />
-                  <div className="flex justify-between px-2.5 mt-2 text-xs">
-                    <span>|</span>
-                    <span>|</span>
-                    <span>|</span>
-                    <span>|</span>
-                    <span>|</span>
-                    <span>|</span>
-                  </div>
-                  <div className="flex justify-between px-2.5 mt-2 text-xs">
-                    <span>0</span>
-                    <span>1</span>
-                    <span>2</span>
-                    <span>3</span>
-                    <span>4</span>
-                    <span>5</span>
-                  </div>
                 </div>
-                <label className="label w-full">
-                  <input
-                    type="checkbox"
-                    checked={isFictive}
-                    {...(isFictive && { "aria-checked": true })}
-                    className="checkbox checkbox-sm"
-                    onChange={handleCheckboxChange}
-                  />
-                  Mark as Fictive
-                </label> */}
               </Activity>
             </div>
             {mode === "DEFAULT" && (
@@ -261,21 +231,10 @@ export const CardWorkload = <
                 type="checkbox"
                 checked={isFictive}
                 {...(isFictive && { "aria-checked": true })}
-                className={`checkbox checkbox-sm flex items-center${isFictive ? " bg-orange-content text-orange" : ""}`}
+                className={`checkbox checkbox-sm flex items-center ${isFictive ? "bg-orange-content text-orange" : ""}`}
                 onChange={handleCheckboxChange}
               />
             )}
-            {/* {mode === "WITH_ICON_BUTTON" && (
-              <div className="flex items-center">
-                <button
-                  type="button"
-                  className="btn btn-md btn-circle btn-ghost"
-                  onClick={handleClick}
-                >
-                  <Pencil />
-                </button>
-              </div>
-            )} */}
           </div>
         </div>
       </div>

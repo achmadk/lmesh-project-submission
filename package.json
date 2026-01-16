@@ -45,5 +45,6 @@
   "trustedDependencies": [
     "sharp",
     "unrs-resolver"
-  ]
+  ],
+  "browserslist": "> 1%"
 }

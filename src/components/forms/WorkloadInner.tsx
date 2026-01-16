@@ -22,7 +22,7 @@ export const FormWorkloadInner = <
   initialValue,
 }: Props) => {
   const { selectedIndex, setSelectedIndex } = useHomeContext();
-  const { getValues, formState, register, watch } = useFormContext<Payload>();
+  const { getValues, register, watch } = useFormContext<Payload>();
   const [showTooltip, setShowTooltip] = useState(false);
 
   // @ts-expect-error
@@ -47,57 +47,60 @@ export const FormWorkloadInner = <
           <div className="col-span-2">
             <h2 className="text-xl">Workload</h2>
           </div>
-          {/* <div
-          className={`grid md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-12 gap-4`}
-        > */}
-          {workloads.map(
-            (workload, index) =>
-              typeof workload === "object" &&
-              !Array.isArray(workload) && (
-                <CardWorkload
-                  key={`workload-item-${
-                    // biome-ignore lint/suspicious/noArrayIndexKey: added with other strings as a key
-                    index
-                  }`}
-                  index={index}
-                  mode="WITH_ICON_BUTTON"
-                  data={initialValue.workloads[index]}
-                  onButtonUpdateClicked={() => {
-                    setSelectedIndex(index);
-                  }}
-                />
-              ),
-          )}
+          <div className="col-span-12">
+            <div
+              className={`grid ${typeof selectedIndex === "number" ? "grid-cols-13" : "grid-cols-12"} gap-x-2`}
+            >
+              {workloads.map(
+                (workload, index) =>
+                  typeof workload === "object" &&
+                  !Array.isArray(workload) && (
+                    <CardWorkload
+                      key={`workload-item-${
+                        // biome-ignore lint/suspicious/noArrayIndexKey: added with other strings as a key
+                        index
+                      }`}
+                      index={index}
+                      mode="WITH_ICON_BUTTON"
+                      data={initialValue.workloads[index]}
+                      onButtonUpdateClicked={() => {
+                        setSelectedIndex(index);
+                      }}
+                    />
+                  ),
+              )}
+            </div>
+          </div>
         </div>
         <div className="divider" />
         <div className="text-xl">
           <strong>Serial Life PSA</strong> | Europe | SELLANTIS | PSA
         </div>
-        {/* <div className="text-lg">DE | MR10R801</div> */}
-        {/* <span>Total</span> */}
-        <div
-          // className={`grid ${selectedIndex !== null ? "md:grid-cols-4 lg:grid-cols-7 xl:grid-cols-13" : "md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-12"} gap-4`}
-          // className={`grid grid-cols-12 gap-4`}
-          className={`grid grid-cols-14 gap-4 mt-8`}
-        >
+        <div className={`grid grid-cols-14 gap-4 mt-8`}>
           <div className="col-span-2">
             <div className="flex flex-col-reverse items-end w-full">
               <span className="text-oldgray">Total</span>
             </div>
           </div>
-          {workloads.map((workload, index) => {
-            return (
-              <div
-                key={`workload-item-${
-                  // biome-ignore lint/style/noNonNullAssertion: <explanation>
-                  index!
-                }`}
-                className={`col text-center font-bold text-md`}
-              >
-                {workload.total}
-              </div>
-            );
-          })}
+          <div className="col-span-12">
+            <div
+              className={`grid ${typeof selectedIndex === "number" ? "grid-cols-13" : "grid-cols-12"} gap-x-2`}
+            >
+              {workloads.map((workload, index) => {
+                return (
+                  <div
+                    key={`workload-item-${
+                      // biome-ignore lint/style/noNonNullAssertion: <explanation>
+                      index!
+                    }`}
+                    className={`${selectedIndex === index ? "col-span-2" : "col"} text-center font-bold text-md`}
+                  >
+                    {workload.total}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
         <div className="grid grid-cols-14 gap-4">
           <div className="col-span-2 flex gap-2">
@@ -107,25 +110,31 @@ export const FormWorkloadInner = <
               <span className="text-lg">MR10R801</span>
             </div>
           </div>
-          {workloads.map(
-            (workload, index) =>
-              typeof workload === "object" &&
-              !Array.isArray(workload) && (
-                <CardWorkload
-                  key={`workload-item-${
-                    // biome-ignore lint/suspicious/noArrayIndexKey: added with other strings as a key
-                    index
-                  }`}
-                  withMonthName={false}
-                  index={index}
-                  data={initialValue.workloads[index]}
-                  onButtonUpdateClicked={() => {
-                    setSelectedIndex(index);
-                  }}
-                  isSelected={selectedIndex === index}
-                />
-              ),
-          )}
+          <div className="col-span-12">
+            <div
+              className={`grid ${typeof selectedIndex === "number" ? "grid-cols-13" : "grid-cols-12"} gap-x-2`}
+            >
+              {workloads.map(
+                (workload, index) =>
+                  typeof workload === "object" &&
+                  !Array.isArray(workload) && (
+                    <CardWorkload
+                      key={`workload-item-${
+                        // biome-ignore lint/suspicious/noArrayIndexKey: added with other strings as a key
+                        index
+                      }`}
+                      withMonthName={false}
+                      index={index}
+                      data={initialValue.workloads[index]}
+                      onButtonUpdateClicked={() => {
+                        setSelectedIndex(index);
+                      }}
+                      isSelected={selectedIndex === index}
+                    />
+                  ),
+              )}
+            </div>
+          </div>
         </div>
         <div className="grid md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-14 gap-4 pt-2">
           <div className="col-span-2" />
@@ -141,7 +150,7 @@ export const FormWorkloadInner = <
           </select>
           <div className="col-span-10">
             <div
-              className={`tooltip${showTooltip ? " tooltip-open" : ""} tooltip-open tooltip-bottom w-full`}
+              className={`tooltip ${showTooltip ? " tooltip-open" : ""} tooltip-bottom w-full`}
               // @ts-expect-error
               data-tip={watch("comment")}
             >
